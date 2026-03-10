@@ -1,0 +1,67 @@
+import numpy as np
+import matplotlib.pyplotp as plt
+from matplotlib.animation import FuncAnimation
+from walker_core import WalkerSoul
+
+"""
+Project: Drone-Hologram-Walker
+Module: visualizer_sim.py (The Mirror)
+Description: 3D Visualization of the walking drones with Motion Blur (POV) effect.
+License: GNU GPL v3.0
+Authors: Noah & Partners
+"""
+
+class DroneVisualizer:
+    def __init__(self):
+        self.walker = WalkerSoul(stride_length=1.2, step_height=0.4, walk_speed=0.8)
+        self.fig = plt.figure(figsize=(10, 7))
+        self.ax = self.fig.add_subplot(111, projection='3d')
+        
+        # Persistence of Vision (POV) settings: number of past frames to keep
+        self.history_len = 15 
+        self.history = {"head": [], "left_foot": [], "right_foot": []}
+
+        # Styling the 3D Plot
+        self.ax.set_xlim(0, 5)
+        self.ax.set_ylim(-1, 1)
+        self.ax.set_zlim(0, 2)
+        self.ax.set_xlabel('Forward (X)')
+        self.ax.set_ylabel('Lateral (Y)')
+        self.ax.set_zlabel('Height (Z)')
+        self.ax.set_title('Noah & Partners: Drone Hologram Simulation (GPL 3.0)')
+
+    def update(self, frame):
+        """ Update function for the animation loop """
+        t = frame * 0.05 # Time step
+        pos = self.walker.get_positions(t)
+        
+        # Clear the previous points to redraw with blur effect
+        self.ax.cla()
+        self.ax.set_xlim(pos['head'][0] - 2, pos['head'][0] + 3) # Tracking camera
+        self.ax.set_ylim(-1, 1)
+        self.ax.set_zlim(0, 2)
+        
+        # Update history for POV effect
+        for key in ["head", "left_foot", "right_foot"]:
+            self.history[key].append(pos[key])
+            if len(self.history[key]) > self.history_len:
+                self.history[key].pop(0)
+            
+            # Draw the 'blur' by plotting history with fading alpha (transparency)
+            h_data = np.array(self.history[key])
+            alphas = np.linspace(0.1, 1.0, len(h_data))
+            
+            # Plot the trail (the hologram effect)
+            for i in range(len(h_data)):
+                color = 'red' if key == 'head' else 'blue'
+                self.ax.scatter(h_data[i, 0], h_data[i, 1], h_data[i, 2], 
+                                color=color, alpha=alphas[i], s=30 if i == len(h_data)-1 else 10)
+
+    def run(self):
+        # Create animation: 200 frames, 50ms interval
+        ani = FuncAnimation(self.fig, self.update, frames=200, interval=50)
+        plt.show()
+
+if __name__ == "__main__":
+    sim = DroneVisualizer()
+    sim.run()
