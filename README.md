@@ -10,10 +10,16 @@
 
 This project, inspired by the principles of **NoahQuantum** and accelerated by **NVIDIA cuQuantum** logic, successfully demonstrates a novel framework for generating a high-fidelity walking hologram using a minimalist swarm of only **three autonomous drones** (Head, Left Foot, Right Foot). By leveraging biomechanical synchronization and Persistence of Vision (POV), we bridge the gap between kinetic art and autonomous swarm robotics.
 
-### Current Milestone: [✓] 3-Node Base Verification
-We have recently verified the core gait generation algorithm through rigorous 3D simulation in VS Code. The system successfully manifests a recognizable human silhouette with stable physical trajectories.
+### Current Milestone: [✓] 3-Node Base Visual Verification (Professional Soul)
 
-[Image Placeholder: Insert the high-quality 3D simulation screenshot (showing POV trail) that Noah verified]
+We have successfully verified the core gait generation algorithm through rigorous 3D simulation. This simulation, visualized using **Matplotlib** and **POV (Persistence of Vision)** trail effects, demonstrates the stable physical trajectories and high-fidelity representation of a human silhouette.
+
+<div align="center">
+  <img src="Drone-Hologram-Walker-1.jpg" width="400" alt="Simulation Snapshot 1" style="margin-right: 10px;">
+  <img src="Drone-Hologram-Walker-2.jpg" width="400" alt="Simulation Snapshot 2">
+</div>
+
+*Figure 1: Side-by-side snapshots of the 3-node biomechanical gait simulation. Note the fading trailing edges of the red (Head) and blue (Feet) nodes, which are essential for creating the digital Persistence of Vision (POV) effect that makes the walking figure recognizable.*
 
 ---
 
